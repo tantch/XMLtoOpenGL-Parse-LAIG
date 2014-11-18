@@ -1,0 +1,635 @@
+<anf>
+
+	<globals>
+
+		<drawing mode="fill" shading="gouraud" background="0 0 0.1 1" />
+
+
+		<culling face="back" order="ccw" />
+
+
+		<lighting doublesided="true" local="true" enabled="true"
+			ambient="0 0 0 1" />
+
+	</globals>
+
+
+	<cameras initial="cam1">
+
+
+		<perspective id="cam1" near="0.1" far="100.0" angle="45.0"
+			pos="50 10 50" target="0 0 0" />
+		<ortho id="cam2" direction="z" near="-40" far="40" left="50"
+			right="-10" top="50" bottom="-10" />
+		<ortho id="right" direction="x" near="-20.0" far="20.0" left="-5.0"
+			right="5.0" top="7.5" bottom="-2.5" />
+
+	</cameras>
+
+
+
+	<lights>
+
+		<light id="luz4" type="omni" enabled="false" marker="true" pos="-3 30 -3">
+			<component type="ambient" value="0.1 0.1 0.1 1" />
+			<component type="diffuse" value="1 1 1 1" />
+			<component type="specular" value="1 1 1 1" />
+
+		</light>
+		<light id="lamp2" type="spot" enabled="false" marker="true" pos="37 1.5 34"
+			target="38 1.5 34" angle="45" exponent="10">
+			<component type="ambient" value="0.1 0.1 0.1 1" />
+			<component type="diffuse" value="0.9 0.5 0.1 1" />
+			<component type="specular" value="0.9 0.5 0.1 1" />
+
+		</light>
+		<light id="lamp1" type="spot" enabled="false" marker="true" pos="23 5 15"
+			target="10 5 15" angle="45" exponent="10">
+			<component type="ambient" value="0.1 0.1 0.1 1" />
+			<component type="diffuse" value="0.9 0.1 0.1 1" />
+			<component type="specular" value="0.9 0.1 0.1 1" />
+
+		</light>
+
+	</lights>
+
+
+	<textures>
+		<texture id="leaf" file="tex/leaf.jpg" texlength_s="1"
+			texlength_t="1" />
+		<texture id="wood" file="tex/wood.jpeg" texlength_s="1"
+			texlength_t="1" />
+		<texture id="stone" file="tex/stone.jpeg" texlength_s="1"
+			texlength_t="1" />
+	</textures>
+
+
+	<appearances>
+
+		<appearance id="stoneAp" shininess="0.2" textureref="stone">
+			<component type="ambient" value="0 0 0 1" />
+			<component type="diffuse" value="0.2 0.2 0.2 1" />
+			<component type="specular" value="0.9 0.9 0.9 1" />
+		</appearance>
+		<appearance id="leafAp" shininess="0.5" textureref="leaf">
+			<component type="ambient" value="0 0 0 0.3" />
+			<component type="diffuse" value="0.1 0.9 0.1 0.3" />
+			<component type="specular" value="0.1 0.9 0.1 0.3" />
+		</appearance>
+		<appearance id="woodAp" shininess="0.5" textureref="wood">
+			<component type="ambient" value="0 0 0 1" />
+			<component type="diffuse" value="0.5 0.5 0.5 1" />
+			<component type="specular" value="0.4 0.4 0.4 1" />
+		</appearance>
+		<appearance id="general" shininess="0.5" textureref="">
+			<component type="ambient" value="0.4 0.4 0.4 1" />
+			<component type="diffuse" value="0.6 0.6 0.6 1" />
+			<component type="specular" value="0.6 0.6 0.6 1" />
+		</appearance>
+	</appearances>
+
+
+
+	<graph rootid="cena">
+		<node id="cena">
+
+			<transforms>
+
+			</transforms>
+
+
+
+			<appearanceref id="general" />
+			<primitives>
+
+			</primitives>
+
+
+			<descendants>
+
+
+				<noderef id="castle" />
+				<noderef id="floor" />
+				<noderef id="arvore1" />
+				<noderef id="arvore2" />
+				<noderef id="arvore3" />
+				<noderef id="arvore4" />
+				<noderef id="arvore5" />
+				<noderef id="arvore6" />
+				<noderef id="arvore7" />
+				<noderef id="arvore8" />
+				<noderef id="arvore9" />
+				<noderef id="teste" />
+
+			</descendants>
+		</node>
+
+
+
+		<node id="teste" >
+			<transforms>
+				<transform type="translate" to="0 10 0" />
+			</transforms>
+
+			<appearanceref id="general" />
+
+			<descendants>
+			</descendants>
+			<primitives>
+			<plane parts="10"/>
+			</primitives>
+		</node>
+		<node id="castle"  displaylist="true">
+			<transforms>
+				<transform type="translate" to="0 0 0" />
+			</transforms>
+
+			<appearanceref id="general" />
+
+			<descendants>
+				<noderef id="wall1" />
+				<noderef id="wall2" />
+				<noderef id="wall3" />
+				<noderef id="wall4" />
+				<noderef id="tower1" />
+				<noderef id="tower2" />
+				<noderef id="tower3" />
+				<noderef id="tower4" />
+			</descendants>
+			<primitives>
+			</primitives>
+		</node>
+		<node id="tower1">
+			<transforms>
+			</transforms>
+
+			<appearanceref id="general" />
+
+			<descendants>
+				<noderef id="tower_base" />
+				<noderef id="tower_top" />
+
+			</descendants>
+			<primitives>
+			</primitives>
+		</node>
+
+		<node id="tower2">
+			<transforms>
+				<transform type="translate" to="0 0 20" />
+			</transforms>
+
+			<appearanceref id="general" />
+
+			<descendants>
+				<noderef id="tower_base" />
+				<noderef id="tower_top" />
+
+			</descendants>
+			<primitives>
+			</primitives>
+		</node>
+		<node id="tower3">
+			<transforms>
+				<transform type="translate" to="20 0 20" />
+			</transforms>
+
+			<appearanceref id="general" />
+
+			<descendants>
+				<noderef id="tower_base" />
+				<noderef id="tower_top" />
+
+			</descendants>
+			<primitives>
+			</primitives>
+		</node>
+		<node id="tower4">
+			<transforms>
+				<transform type="translate" to="20 0 0" />
+			</transforms>
+
+			<appearanceref id="general" />
+
+			<descendants>
+				<noderef id="tower_base" />
+				<noderef id="tower_top" />
+
+			</descendants>
+			<primitives>
+			</primitives>
+		</node>
+		<node id="wall1">
+			<transforms>
+			</transforms>
+
+			<appearanceref id="general" />
+
+			<primitives>
+			</primitives>
+
+			<descendants>
+				<noderef id="wall" />
+			</descendants>
+		</node>
+		<node id="wall2">
+			<transforms>
+				<transform type="translate" to="20 0 0" />
+			</transforms>
+
+			<appearanceref id="general" />
+
+			<primitives>
+			</primitives>
+
+			<descendants>
+				<noderef id="wall" />
+			</descendants>
+		</node>
+		<node id="wall3">
+			<transforms>
+				<transform type="translate" to="0 0 0" />
+				<transform type="rotate" axis="y" angle="90" />
+			</transforms>
+
+			<appearanceref id="general" />
+
+			<primitives>
+			</primitives>
+
+			<descendants>
+				<noderef id="wall" />
+			</descendants>
+		</node>
+		<node id="wall4">
+			<transforms>
+				<transform type="translate" to="0 0 20" />
+				<transform type="rotate" axis="y" angle="90" />
+			</transforms>
+
+			<appearanceref id="general" />
+
+			<primitives>
+			</primitives>
+
+			<descendants>
+				<noderef id="wall" />
+			</descendants>
+		</node>
+		<node id="arvore1">
+
+			<transforms>
+				<transform type="translate" to="30 0 30" />
+			</transforms>
+			<appearanceref id="general" />
+
+			<primitives>
+			</primitives>
+
+			<descendants>
+				<noderef id="arvore" />
+			</descendants>
+		</node>
+		<node id="arvore2">
+
+			<transforms>
+				<transform type="translate" to="20 0 30" />
+			</transforms>
+			<appearanceref id="general" />
+
+			<primitives>
+			</primitives>
+
+			<descendants>
+				<noderef id="arvore" />
+			</descendants>
+		</node>
+		<node id="arvore3">
+
+			<transforms>
+				<transform type="translate" to="10 0 30" />
+			</transforms>
+			<appearanceref id="general" />
+
+			<primitives>
+			</primitives>
+
+			<descendants>
+				<noderef id="arvore" />
+			</descendants>
+		</node>
+		<node id="arvore4">
+
+			<transforms>
+				<transform type="translate" to="0 0 30" />
+			</transforms>
+			<appearanceref id="general" />
+
+			<primitives>
+			</primitives>
+
+			<descendants>
+				<noderef id="arvore" />
+			</descendants>
+		</node>
+		<node id="arvore5">
+
+			<transforms>
+				<transform type="translate" to="40 0 30" />
+			</transforms>
+			<appearanceref id="general" />
+
+			<primitives>
+			</primitives>
+
+			<descendants>
+				<noderef id="arvore" />
+			</descendants>
+		</node>
+		<node id="arvore6">
+
+			<transforms>
+				<transform type="translate" to="45 0 33" />
+			</transforms>
+			<appearanceref id="general" />
+
+			<primitives>
+			</primitives>
+
+			<descendants>
+				<noderef id="arvore" />
+			</descendants>
+		</node>
+		<node id="arvore7">
+
+			<transforms>
+				<transform type="translate" to="40 0 40" />
+			</transforms>
+			<appearanceref id="general" />
+
+			<primitives>
+			</primitives>
+
+			<descendants>
+				<noderef id="arvore" />
+			</descendants>
+		</node>
+		<node id="arvore8">
+
+			<transforms>
+				<transform type="translate" to="40 0 10" />
+			</transforms>
+			<appearanceref id="general" />
+
+			<primitives>
+			</primitives>
+
+			<descendants>
+				<noderef id="arvore" />
+			</descendants>
+		</node>
+		<node id="arvore9">
+
+			<transforms>
+				<transform type="translate" to="30 0 7" />
+			</transforms>
+			<appearanceref id="general" />
+
+			<primitives>
+			</primitives>
+
+			<descendants>
+				<noderef id="arvore" />
+			</descendants>
+		</node>
+
+		<node id="tower_base">
+			<transforms>
+				<transform type="rotate" axis="x" angle="-90" />
+			</transforms>
+			<appearanceref id="stoneAp" />
+
+			<primitives>
+				<cylinder base="1" top="1" height="6" slices="8" stacks="4" />
+			</primitives>
+
+			<descendants>
+			</descendants>
+		</node>
+		<node id="tower_top">
+			<transforms>
+				<transform type="translate" to="0 6 0" />
+				<transform type="rotate" axis="x" angle="-90" />
+			</transforms>
+			<appearanceref id="stoneAp" />
+
+			<primitives>
+				<cylinder base="1" top="0.001" height="1" slices="8"
+					stacks="4" />
+			</primitives>
+
+			<descendants>
+			</descendants>
+		</node>
+
+		<node id="wall">
+			<transforms>
+				<transform type="scale" factor="0.1 6 20" />
+			</transforms>
+
+			<appearanceref id="stoneAp" />
+
+			<primitives>
+			</primitives>
+
+			<descendants>
+				<noderef id="cubo" />
+			</descendants>
+		</node>
+		<node id="floor"  displaylist="true">
+			<transforms>
+				<transform type="scale" factor="20 1 20" />
+			</transforms>
+
+			<appearanceref id="stoneAp" />
+
+			<descendants>
+				<noderef id="cubo" />
+			</descendants>
+
+			<primitives>
+			</primitives>
+		</node>
+
+		<node id="arvore">
+			<transforms>
+				<transform type="rotate" axis="x" angle="-90" />
+			</transforms>
+			<appearanceref id="general" />
+			<primitives>
+			</primitives>
+			<descendants>
+				<noderef id="tronco" />
+				<noderef id="arvoreTopo1" />
+				<noderef id="arvoreTopo2" />
+				<noderef id="arvoreTopo3" />
+			</descendants>
+		</node>
+		<node id="tronco">
+			<transforms>
+			</transforms>
+			<appearanceref id="woodAp" />
+			<primitives>
+
+				<cylinder base="1" top="1" height="3" slices="20" stacks="15" />
+				-
+			</primitives>
+			<descendants>
+			</descendants>
+		</node>
+		<node id="arvoreTopo1">
+			<transforms>
+				<transform type="translate" to="0 0 2" />
+			</transforms>
+			<appearanceref id="leafAp" />
+			<primitives>
+				<cylinder base="3" top="1" height="2" slices="20" stacks="10" />
+			</primitives>
+			<descendants>
+			</descendants>
+		</node>
+		<node id="arvoreTopo2">
+			<transforms>
+				<transform type="translate" to="0 0 3" />
+			</transforms>
+			<appearanceref id="leafAp" />
+			<primitives>
+				<cylinder base="2.5" top="1" height="2" slices="20" stacks="10" />
+			</primitives>
+			<descendants>
+			</descendants>
+		</node>
+		<node id="arvoreTopo3">
+			<transforms>
+				<transform type="translate" to="0 0 4" />
+			</transforms>
+			<appearanceref id="leafAp" />
+			<primitives>
+				<cylinder base="2" top="0.0001" height="3" slices="20"
+					stacks="10" />
+			</primitives>
+			<descendants>
+			</descendants>
+		</node>
+
+		<node id="cubo">
+			<transforms>
+			</transforms>
+
+			<appearanceref id="inherit" />
+
+			<primitives>
+
+			</primitives>
+
+			<descendants>
+				<noderef id="cubo_front" />
+				<noderef id="cubo_back" />
+				<noderef id="cubo_right" />
+				<noderef id="cubo_left" />
+				<noderef id="cubo_top" />
+				<noderef id="cubo_bot" />
+			</descendants>
+		</node>
+
+		<node id="cubo_front">
+			<transforms>
+				<transform type="translate" to="1 0 1" />
+				<transform type="rotate" axis="y" angle="90" />
+			</transforms>
+
+			<appearanceref id="inherit" />
+
+			<primitives>
+				<rectangle xy1="0 0" xy2="1 1" />
+			</primitives>
+
+			<descendants>
+			</descendants>
+		</node>
+
+		<node id="cubo_back">
+			<transforms>
+				<transform type="rotate" axis="y" angle="-90" />
+			</transforms>
+
+			<appearanceref id="inherit" />
+
+			<primitives>
+				<rectangle xy1="0 0" xy2="1 1" />
+			</primitives>
+
+			<descendants>
+			</descendants>
+		</node>
+		<node id="cubo_right">
+			<transforms>
+				<transform type="translate" to="1 0 0" />
+				<transform type="rotate" axis="y" angle="180" />
+			</transforms>
+
+			<appearanceref id="inherit" />
+
+			<primitives>
+				<rectangle xy1="0 0" xy2="1 1" />
+			</primitives>
+
+			<descendants>
+			</descendants>
+		</node>
+		<node id="cubo_left">
+			<transforms>
+				<transform type="translate" to="0 0 1" />
+			</transforms>
+
+			<appearanceref id="inherit" />
+
+			<primitives>
+				<rectangle xy1="0 0" xy2="1 1" />
+			</primitives>
+
+			<descendants>
+			</descendants>
+		</node>
+		<node id="cubo_top">
+			<transforms>
+				<transform type="translate" to="0 1 1" />
+				<transform type="rotate" axis="x" angle="-90" />
+			</transforms>
+
+			<appearanceref id="inherit" />
+
+			<primitives>
+				<rectangle xy1="0 0" xy2="1 1" />
+			</primitives>
+
+			<descendants>
+			</descendants>
+		</node>
+		<node id="cubo_bot">
+			<transforms>
+				<transform type="rotate" axis="x" angle="90" />
+			</transforms>
+
+			<appearanceref id="inherit" />
+
+			<primitives>
+				<rectangle xy1="0 0" xy2="1 1" />
+			</primitives>
+
+			<descendants>
+			</descendants>
+		</node>
+
+	</graph>
+</anf>

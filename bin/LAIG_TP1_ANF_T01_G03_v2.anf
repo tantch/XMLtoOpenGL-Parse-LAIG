@@ -1,0 +1,601 @@
+﻿<anf>
+
+  <globals>
+    <drawing mode="fill"
+             shading="gouraud"
+             background="0.0 0.0 0.1 1.0" />
+
+    <culling face="back"
+             order="ccw" />
+
+    <lighting doublesided="false"
+              local="true"
+              enabled="true"
+              ambient="0.3 0.3 0.3 1.0" />
+  </globals>
+
+  <cameras initial="perspective" >
+    <perspective id="perspective" near="1.0" far="100.0" angle="45.0" pos="5.0 3 4.5" target="0.0 2.5 0.0" />
+
+    <ortho id="right" direction="x" near="-20.0" far="20.0" left="-5.0" right="5.0" top="7.5" bottom="-2.5" />
+    <ortho id="top" direction="y" near="-20.0" far="20.0" left="-5.0" right="5.0" top="5.0" bottom="-5.0" />
+    <ortho id="front" direction="z" near="-20.0" far="20.0" left="-5.0" right="5.0" top="7.5" bottom="-2.5" />
+  </cameras>
+
+  <lights>
+    <light id="omniLight" type="omni" enabled="true" marker="true" pos="9.5 4.5 4.5" >
+      <component type="ambient" value="0 0 0 1.0" />
+      <component type="diffuse" value="0.4 0.4 0.4 1.0" />
+      <component type="specular" value="0.4 0.4 0.4 1.0" />
+    </light>
+    <light id="spotLight1" type="spot" enabled="false" marker="true" pos="0.0 4.5 0.0" target="0.0 0.0 0.0"
+        angle="45.0" exponent="10" >
+      <component type="ambient" value="0.0 0 0 1.0" />
+      <component type="diffuse" value="0.3 0.8 0.8 1.0" />
+      <component type="specular" value="0.3 0.8 0.8 1.0" />
+    </light>
+    <light id="spotLight2" type="spot" enabled="false" marker="true" pos="0.0 4.5 -4.5" target="0.0 4.5 -5.0"
+      angle="80.0" exponent="2" >
+      <component type="ambient" value="0.0 0 0 1.0" />
+      <component type="diffuse" value="0.8 0.8 0.8 1.0" />
+      <component type="specular" value="0.8 0.8 0.8 1.0" />
+    </light>
+  </lights>
+
+  <textures>
+    <texture id="texture_floor" file="textures/floor_wood.jpg" texlength_s="4" texlength_t="4" />
+    <texture id="texture_wall" file="textures/wall_white.jpg" texlength_s="1" texlength_t="1" />
+    <texture id="texture_globe" file="textures/globe.jpg" texlength_s="1" texlength_t="1" />
+    <texture id="texture_wallpaper" file="textures/alien_wallpaper.jpg" texlength_s="20" texlength_t="5" />
+    <texture id="texture_globeHalo" file="textures/alien-pattern.jpg" texlength_s="1.0" texlength_t="1.0" />
+    <texture id="texture_metal" file="textures/metal.jpg" texlength_s="0.5" texlength_t="0.5" />
+    <texture id="texture_alien1" file="textures/alien1.png" texlength_s="1.0" texlength_t="1.0" />
+    <texture id="texture_alien2" file="textures/alien2.png" texlength_s="1.0" texlength_t="1.0" />
+  </textures>
+
+  <appearances>
+    <appearance id="appearance_default" shininess="50" textureref="">
+      <component type="ambient" value="0.1 0.1 0.1 1.0" />
+      <component type="diffuse" value="0.8 0.8 0.8 1.0" />
+      <component type="specular" value="0.8 0.8 0.8 1.0" />
+    </appearance>
+    <appearance id="appearance_floor" shininess="0.4" textureref="texture_floor" >
+      <component type="ambient" value="0.1 0.1 0.1 1.0" />
+      <component type="diffuse" value="0.8 0.8 0.8 1.0" />
+      <component type="specular" value="0.8 0.8 0.8 1.0" />
+    </appearance>
+    <appearance id="appearance_ceiling" shininess="0.1" textureref="">
+      <component type="ambient" value="0.1 0.1 0.1 1.0" />
+      <component type="diffuse" value="0.8 0.8 0.8 1.0" />
+      <component type="specular" value="0.8 0.8 0.8 1.0" />
+    </appearance>
+    <appearance id="appearance_wallpaper" shininess="0.4" textureref="texture_wallpaper" >
+      <component type="ambient" value="1.0 1.0 0.6 1.0" />
+      <component type="diffuse" value="0.8 0.8 0.6 1.0" />
+      <component type="specular" value="0.8 0.8 0.6 1.0" />
+    </appearance>
+    <appearance id="appearance_wall" shininess="0.4" textureref="texture_wall" >
+      <component type="ambient" value="0.1 0.1 0.1 1.0" />
+      <component type="diffuse" value="0.8 0.8 0.8 1.0" />
+      <component type="specular" value="0.8 0.8 0.8 1.0" />
+    </appearance>
+    <appearance id="appearance_globe" shininess="0.4" textureref="texture_globe" >
+      <component type="ambient" value="0.1 0.1 0.1 1.0" />
+      <component type="diffuse" value="0.8 0.8 0.8 1.0" />
+      <component type="specular" value="0.8 0.8 0.8 1.0" />
+    </appearance>
+    <appearance id="appearance_globeHalo" shininess="0.4" textureref="texture_globeHalo" >
+      <component type="ambient" value="0.4 0.4 0.7 1.0" />
+      <component type="diffuse" value="0.3 0.3 0.7 1.0" />
+      <component type="specular" value="0.2 0.2 0.8 1.0" />
+    </appearance>
+    <appearance id="appearance_metal" shininess="50" textureref="texture_metal" >
+      <component type="ambient" value="0.1 0.1 0.1 1.0" />
+      <component type="diffuse" value="0.8 0.8 0.8 1.0" />
+      <component type="specular" value="0.9 0.9 0.9 1.0" />
+    </appearance>
+    <appearance id="appearance_alien1" shininess="50" textureref="texture_alien1" >
+      <component type="ambient" value="0.1 0.1 0.1 1.0" />
+      <component type="diffuse" value="0.8 0.8 0.8 1.0" />
+      <component type="specular" value="0.9 0.9 0.9 1.0" />
+    </appearance>
+    <appearance id="appearance_alien2" shininess="50" textureref="texture_alien2" >
+      <component type="ambient" value="0.1 0.1 0.1 1.0" />
+      <component type="diffuse" value="0.8 0.8 0.8 1.0" />
+      <component type="specular" value="0.9 0.9 0.9 1.0" />
+    </appearance>
+  </appearances>
+
+  <graph rootid="room">
+    <node id="room">
+      <transforms>
+      </transforms>
+
+      <appearanceref id="appearance_default" />
+
+      <primitives>
+      </primitives>
+
+      <descendants>
+        <noderef id="floor" />
+        <noderef id="ceiling" />
+        <noderef id="walls" />
+        <noderef id="objects" />
+      </descendants>
+    </node>
+
+    <!-- Begin Room Structure -->
+    <!-- Dimension 20x0x10 -->
+    <node id="floor">
+      <transforms>
+        <transform type="rotate" axis="x" angle="-90" />
+      </transforms>
+
+      <appearanceref id="appearance_floor" />
+
+      <primitives>
+        <rectangle xy1="-10 -5" xy2="10 5" />
+      </primitives>
+
+      <descendants>
+      </descendants>
+    </node>
+
+    <!-- Dimension 20x0x10 -->
+    <node id="ceiling">
+      <transforms>
+        <transform type="translate" to="0 5 0" />
+        <transform type="rotate" axis="x" angle="90" />
+      </transforms>
+
+      <appearanceref id="appearance_ceiling" />
+
+      <primitives>
+        <rectangle xy1="-10 -5" xy2="10 5" />
+      </primitives>
+
+      <descendants>
+      </descendants>
+    </node>
+
+    <node id="walls">
+      <transforms>
+      </transforms>
+
+      <appearanceref id="appearance_wall" />
+
+      <primitives>
+      </primitives>
+
+      <descendants>
+        <noderef id="wallX+" />
+        <noderef id="wallX-" />
+        <noderef id="wallZ+" />
+        <noderef id="wallZ-" />
+      </descendants>
+    </node>
+
+    <!-- Dimension 0x5x10 -->
+    <node id="wallX+">
+      <transforms>
+        <transform type="translate" to="10 2.5 0" />
+        <transform type="rotate" axis="y" angle="-90" />
+      </transforms>
+
+      <appearanceref id="inherit" />
+
+      <primitives>
+        <rectangle xy1="-5 -2.5" xy2="5 2.5" />
+      </primitives>
+
+      <descendants>
+      </descendants>
+    </node>
+
+    <!-- Dimension 0x5x10 -->
+    <node id="wallX-">
+      <transforms>
+        <transform type="translate" to="-10 2.5 0" />
+        <transform type="rotate" axis="y" angle="90" />
+      </transforms>
+
+      <appearanceref id="inherit" />
+
+      <primitives>
+        <rectangle xy1="-5 -2.5" xy2="5 2.5" />
+      </primitives>
+
+      <descendants>
+      </descendants>
+    </node>
+
+    <!-- Dimension 20x5x0 -->
+    <node id="wallZ+">
+      <transforms>
+        <transform type="translate" to="0 2.5 -5" />
+      </transforms>
+
+      <appearanceref id="inherit" />
+
+      <primitives>
+        <rectangle xy1="-10 -2.5" xy2="10 2.5" />
+      </primitives>
+
+      <descendants>
+      </descendants>
+    </node>
+
+    <!-- Dimension 20x5x0 -->
+    <node id="wallZ-">
+      <transforms>
+        <transform type="translate" to="0 2.5 5" />
+        <transform type="rotate" axis="y" angle="180" />
+      </transforms>
+
+      <appearanceref id="inherit" />
+
+      <primitives>
+        <rectangle xy1="-10 -2.5" xy2="10 2.5" />
+      </primitives>
+
+      <descendants>
+      </descendants>
+    </node>
+
+    <!-- Begin Objects -->
+    <node id="objects">
+      <transforms>
+      </transforms>
+
+      <appearanceref id="inherit" />
+
+      <primitives>
+      </primitives>
+
+      <descendants>
+        <noderef id="globeObject" />
+        <noderef id="aliens" />
+      </descendants>
+    </node>
+
+    <!-- Begin Globe Object -->
+    <node id="globeObject">
+      <transforms>
+        <transform type="translate" to="0 0 0" />
+      </transforms>
+
+      <appearanceref id="inherit" />
+
+      <primitives>
+      </primitives>
+
+      <descendants>
+        <noderef id="trianglePainting" />
+        <noderef id="globe" />
+        <noderef id="globeSupport" />
+        <noderef id="globeHalo" />
+      </descendants>
+    </node>
+
+    <node id="trianglePainting">
+      <transforms>
+      </transforms>
+
+      <appearanceref id="appearance_wallpaper" />
+
+      <primitives>
+        <triangle xyz1="-10.0 0.0 -4.95" xyz2="10.0 0.0 -4.95" xyz3="0.0 5.0 -4.95" />
+      </primitives>
+
+      <descendants>
+      </descendants>
+    </node>
+
+    <node id="globe">
+      <transforms>
+        <transform type="translate" to="0 1 0" />
+        <transform type="rotate" axis="x" angle="-90" />
+      </transforms>
+
+      <appearanceref id="appearance_globe" />
+
+      <primitives>
+        <sphere radius="0.5" slices="12" stacks="12" />
+      </primitives>
+
+      <descendants>
+      </descendants>
+    </node>
+
+    <node id="globeSupport">
+      <transforms>
+        <transform type="rotate" axis="x" angle="-90" />
+      </transforms>
+
+      <appearanceref id="appearance_metal" />
+
+      <primitives>
+        <cylinder base="1" top="1" height="0.5" slices="16" stacks="16" />
+      </primitives>
+
+      <descendants>
+      </descendants>
+    </node>
+
+    <node id="globeHalo">
+      <transforms>
+        <transform type="translate" to="0.0 2.0 0.0" />
+        <transform type="rotate" axis="x" angle="-90" />
+      </transforms>
+      <appearanceref id="appearance_globeHalo" />
+      <primitives>
+        <torus inner="0.15" outer="0.5" slices="10" loops="10" />
+      </primitives>
+      <descendants>
+      </descendants>
+    </node>
+
+    <!-- Begin Aliens -->
+    <node id="aliens">
+      <transforms>
+        <transform type="scale" factor="0.25 0.25 0.25" />
+        <transform type="translate" to="0.0 3.5 0.0" />
+      </transforms>
+      <appearanceref id="inherit" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="alien1" />
+        <noderef id="alien2" />
+      </descendants>
+    </node>
+
+    <node id="alien1">
+      <transforms>
+        <transform type="translate" to="-8.0 0.0 0.0" />
+        <transform type="rotate" axis="y" angle="90" />
+      </transforms>
+      <appearanceref id="appearance_alien1" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="person" />
+      </descendants>
+    </node>
+
+    <node id="alien2">
+      <transforms>
+        <transform type="translate" to="8.0 0.0 0.0" />
+        <transform type="rotate" axis="y" angle="-90" />
+      </transforms>
+      <appearanceref id="appearance_alien2" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="person" />
+      </descendants>
+    </node>
+
+    <!-- Begin Person -->
+    <node id="person">
+      <transforms>
+      </transforms>
+      <appearanceref id="inherit" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="head" />
+        <noderef id="body" />
+        <noderef id="arm1" />
+        <noderef id="arm2" />
+        <noderef id="leg1" />
+        <noderef id="leg2" />
+      </descendants>
+    </node>
+
+    <node id="head">
+      <transforms>
+        <transform type="translate" to="0.0 2.5 0.0" />
+        <transform type="rotate" axis="x" angle="-90" />
+      </transforms>
+      <appearanceref id="inherit" />
+      <primitives>
+        <sphere radius="1" slices="10" stacks="10" />
+      </primitives>
+      <descendants>
+      </descendants>
+    </node>
+
+    <node id="body">
+      <transforms>
+        <transform type="scale" factor="2 3 2" />
+      </transforms>
+      <appearanceref id="appearance_metal" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="cube" />
+      </descendants>
+    </node>
+
+    <node id="arm">
+      <transforms>
+      </transforms>
+      <appearanceref id="inherit" />
+      <primitives>
+        <cylinder base="0.5" top="0" height="2" slices="5" stacks="10" />
+      </primitives>
+      <descendants>
+      </descendants>
+    </node>
+
+    <node id="arm1">
+      <transforms>
+        <transform type="translate" to="1.0 0.7 0.0" />
+        <transform type="rotate" axis="y" angle="90" />
+      </transforms>
+      <appearanceref id="appearance_metal" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="arm" />
+      </descendants>
+    </node>
+
+    <node id="arm2">
+      <transforms>
+        <transform type="translate" to="-1.0 0.7 0.0" />
+        <transform type="rotate" axis="y" angle="-90" />
+      </transforms>
+      <appearanceref id="appearance_metal" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="arm" />
+      </descendants>
+    </node>
+
+    <node id="leg">
+      <transforms>
+        <transform type="scale" factor="0.5 2.0 0.5" />
+      </transforms>
+      <appearanceref id="inherit" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="cube" />
+      </descendants>
+    </node>
+
+    <node id="leg1">
+      <transforms>
+        <transform type="translate" to="-0.5 -2.5 0.0" />
+      </transforms>
+      <appearanceref id="appearance_metal" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="leg" />
+      </descendants>
+    </node>
+
+    <node id="leg2">
+      <transforms>
+        <transform type="translate" to="0.5 -2.5 0.0" />
+      </transforms>
+      <appearanceref id="appearance_metal" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="leg" />
+      </descendants>
+    </node>
+
+    <!-- ****************** CUBE *************** -->
+    <node id="cube">
+      <transforms>
+      </transforms>
+      <appearanceref id="inherit" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="cubeF1" />
+        <noderef id="cubeF2" />
+        <noderef id="cubeF3" />
+        <noderef id="cubeF4" />
+        <noderef id="cubeF5" />
+        <noderef id="cubeF6" />
+      </descendants>
+    </node>
+
+    <node id="cubeF1">
+      <transforms>
+        <transform type="translate" to="0.0 0.0 0.5" />
+      </transforms>
+      <appearanceref id="inherit" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="1x1Square" />
+      </descendants>
+    </node>
+
+    <node id="cubeF2">
+      <transforms>
+        <transform type="rotate" axis="y" angle="180" />
+        <transform type="translate" to="0.0 0.0 0.5" />
+      </transforms>
+      <appearanceref id="inherit" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="1x1Square" />
+      </descendants>
+    </node>
+
+    <node id="cubeF3">
+      <transforms>
+        <transform type="translate" to="-0.5 0.0 0.0" />
+        <transform type="rotate" axis="y" angle="-90" />
+      </transforms>
+      <appearanceref id="inherit" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="1x1Square" />
+      </descendants>
+    </node>
+
+    <node id="cubeF4">
+      <transforms>
+        <transform type="translate" to="0.5 0.0 0.0" />
+        <transform type="rotate" axis="y" angle="90" />
+      </transforms>
+      <appearanceref id="inherit" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="1x1Square" />
+      </descendants>
+    </node>
+
+    <node id="cubeF5">
+      <transforms>
+        <transform type="translate" to="0.0 0.5 0.0" />
+        <transform type="rotate" axis="x" angle="-90" />
+      </transforms>
+      <appearanceref id="inherit" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="1x1Square" />
+      </descendants>
+    </node>
+
+    <node id="cubeF6">
+      <transforms>
+        <transform type="translate" to="0.0 -0.5 0.0" />
+        <transform type="rotate" axis="x" angle="90" />
+      </transforms>
+      <appearanceref id="inherit" />
+      <primitives>
+      </primitives>
+      <descendants>
+        <noderef id="1x1Square" />
+      </descendants>
+    </node>
+
+    <node id="1x1Square">
+      <transforms>
+      </transforms>
+      <appearanceref id="inherit" />
+      <primitives>
+        <rectangle xy1="-0.5 -0.5" xy2="0.5 0.5" />
+      </primitives>
+      <descendants>
+      </descendants>
+    </node>
+
+  </graph>
+
+</anf>
