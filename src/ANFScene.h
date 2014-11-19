@@ -4,14 +4,16 @@
 #include "CGFscene.h"
 #include "CGFshader.h"
 #include "tinyxml.h"
+#include "Flag.h"
 #include "Plane.h"
-
+#include "Patch.h"
 class ANFScene: public CGFscene {
 public:
 	void init();
 	void display();
 	~ANFScene();
 	ANFScene(char *filename);
+	void update(unsigned long t);
 	void setDisplayList(map<string, NodeSt>::iterator node,
 			map<string, appearanceSt*>::iterator appearanceId, bool force);
 	void activateLight(int id, bool enable);
@@ -38,6 +40,7 @@ public:
 	GraphMp* graph;
 	vector<string> luzesId;
 	vector<string> camerasId;
+	Flag* flagtest;
 
 };
 

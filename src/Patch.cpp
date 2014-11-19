@@ -10,23 +10,26 @@
 #include "Patch.h"
 
 Patch::Patch(int order, int partsU, int partsV, string compute,
-		float ** cntrlPoints) {
+		vector<vector<float> > cntrlPoints) {
 	this->order = order;
 	this->partsV = partsV;
 	this->partsU = partsU;
 	this->compute = compute;
-	this->cntrlPoints = cntrlPoints;
+
+	for (int i = 0; i < cntrlPoints.size(); ++i) {
+		for (int j = 0; j < 3; ++j) {
+			this->cntrlPoints.push_back(cntrlPoints[i][j]);
+		}
+	}
+
 
 	int n = (order + 1) * (order + 1);
 	float inc = 1 / order;
 	float x = 0, y = 0;
-
-	textPoints = (float **) malloc(n * sizeof(float));
-
 	for (int i = 0; i < n; i++) {
-		textPoints[i] = (float*) malloc(sizeof(float) * 2);
-		textPoints[i][0] = x;
-		textPoints[i][1] = y;
+
+		textPoints.push_back(x);
+		textPoints.push_back(y);
 		x += inc;
 		if (x > 1) {
 			x = 0;
@@ -42,10 +45,10 @@ Patch::~Patch() {
 
 void Patch::draw() {
 	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 3, (order + 1), 0.0, 1.0,
-			3 * (order + 1), (order + 1), &cntrlPoints[0][0]);
+			3 * (order + 1), (order + 1), &cntrlPoints[0]);
 	glMap2f(GL_MAP2_TEXTURE_COORD_2, 0.0, 1.0, 2, (order + 1), 0.0, 1.0,
-			2 * (order + 1), (order + 1), &textPoints[0][0]);
-
+			2 * (order + 1), (order + 1), &textPoints[0]);
+	glFrontFace(GL_CW);
 	glEnable(GL_MAP2_VERTEX_3);
 	glEnable(GL_AUTO_NORMAL);
 	glEnable(GL_MAP2_TEXTURE_COORD_2);
@@ -57,11 +60,13 @@ void Patch::draw() {
 	else
 		glEvalMesh2(GL_POINT, 0, partsU, 0, partsV);
 
-	for (int i = 0; i < 4; i++) {
-		glRasterPos3f(cntrlPoints[i][0], cntrlPoints[i][1],
-				cntrlPoints[i][2] + 0.5);
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, '0' + i);
+	for (int i = 0; i < (order + 1) * (order + 1); i++) {
+		glRasterPos3f(cntrlPoints[3*i+0], cntrlPoints[3*i+1] + 0.5,
+				cntrlPoints[3*i+2]);
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, '0' + i / 10);
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, '0' + i % 10);
 	}
+	glFrontFace(GL_CCW);
 
 }
 void Patch::draw(textureSt *t) {

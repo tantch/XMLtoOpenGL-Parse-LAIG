@@ -9,7 +9,6 @@
 void ANFScene::setDisplayList(map<string, NodeSt>::iterator node,
 		map<string, appearanceSt*>::iterator appearanceId, bool force) {
 
-
 	bool useText = true;
 	map<string, appearanceSt*>::iterator next = appearanceId;
 	if (node->second.usingDL && !force) {
@@ -83,7 +82,7 @@ void ANFScene::setDisplayList(map<string, NodeSt>::iterator node,
 		for (int i = 0; i < node->second.descendents.size(); i++) {
 			setDisplayList(node->second.descendents[i], next, true);
 		}
-	glPopMatrix();
+		glPopMatrix();
 	} else {
 
 		for (int i = 0; i < node->second.descendents.size(); i++) {
@@ -139,6 +138,7 @@ ANFScene::ANFScene(char *filename) {
 		exit(1);
 	}
 
+	flagtest= new Flag();
 }
 
 void ANFScene::init() {
@@ -451,8 +451,8 @@ void ANFScene::init() {
 			node != NULL; node = node->NextSiblingElement("node")) {
 		printf("start reading a node\n");
 		string id = node->Attribute("id");
-		bool useDL=false;
-		node->QueryBoolAttribute("displaylist",&useDL);
+		bool useDL = false;
+		node->QueryBoolAttribute("displaylist", &useDL);
 
 		TiXmlElement* transforms = node->FirstChildElement("transforms");
 		printf("start reading a transform\n");
@@ -552,9 +552,36 @@ void ANFScene::init() {
 					"plane"); plane != NULL;
 					plane = plane->NextSiblingElement("plane")) {
 				int parts;
-				plane->QueryIntAttribute("parts",&parts);
+				plane->QueryIntAttribute("parts", &parts);
 				primitives.push_back(new Plane(parts));
 
+			}
+			for (TiXmlElement* patch = primitiveElements->FirstChildElement(
+					"patch"); patch != NULL;
+					patch = patch->NextSiblingElement("patch")) {
+				int ord=0, pU=0, pV=0;
+				patch->QueryIntAttribute("order", &ord);
+				patch->QueryIntAttribute("partsU", &pU);
+				patch->QueryIntAttribute("partsV", &pV);
+				string compute = patch->Attribute("compute");
+				vector<vector<float> > cntrlp;
+				for (TiXmlElement* ctrl = patch->FirstChildElement(
+						"controlpoint"); ctrl != NULL;
+						ctrl = ctrl->NextSiblingElement("controlpoint")) {
+					float x,y,z;
+					ctrl->QueryFloatAttribute("x",&x);
+					ctrl->QueryFloatAttribute("y",&y);
+					ctrl->QueryFloatAttribute("z",&z);
+
+					vector<float> temp;
+					temp.push_back(x);
+					temp.push_back(y);
+					temp.push_back(z);
+
+					cntrlp.push_back(temp);
+				}
+
+				primitives.push_back(new Patch(ord,pU,pV,compute,cntrlp));
 			}
 			for (TiXmlElement* torus = primitiveElements->FirstChildElement(
 					"torus"); torus != NULL;
@@ -588,7 +615,7 @@ void ANFScene::init() {
 					"appearanceref");
 			string idapp = appearanceref->Attribute("id");
 			appearance = appearances->getAppearance(idapp);
-			graph->addNode(id, appearance, descendants, primitives,useDL);
+			graph->addNode(id, appearance, descendants, primitives, useDL);
 			for (int i = 0; i < 16; i++)
 				graph->nodes[id].matrix[i] = matrix[i];
 			printf("finished reading node\n");
@@ -601,10 +628,8 @@ void ANFScene::init() {
 /////////////////////////////////////////////////////////////////////////////////////
 
 //displaylsits
-	setDisplayList(graph->rootId,
-			appearances->appearances.end(), false);
-
-
+	setDisplayList(graph->rootId, appearances->appearances.end(), false);
+	setUpdatePeriod(60);
 }
 
 void ANFScene::display() {
@@ -634,6 +659,10 @@ void ANFScene::display() {
 	}
 	axis.draw();
 
+	glPushMatrix();
+	glTranslatef(20,15,20);
+	flagtest->draw();
+	glPopMatrix();
 	graph->draw(appearances->appearances.end());
 
 	glutSwapBuffers();
@@ -646,8 +675,12 @@ void ANFScene::activateLight(int id, bool enable) {
 		lights->getLight(luzesId[id])->light->disable();
 
 }
+void ANFScene::update(unsigned long t){
+	flagtest->shader->update(t);
+
+
+}
 
 ANFScene::~ANFScene() {
 }
-
 
