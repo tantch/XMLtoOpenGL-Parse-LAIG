@@ -578,10 +578,10 @@ public:
 
 		} else {
 			glPushMatrix();
-			glMultMatrixf(nod.matrix);
 			for(int i=0;i<nod.animationsIds.size();i++){
 				nod.animationsIds[i]->second->move();
 			}
+			glMultMatrixf(nod.matrix);
 			if (nod.appearanceId->second->id != "inherit") {
 
 				nod.appearanceId->second->appe->apply();

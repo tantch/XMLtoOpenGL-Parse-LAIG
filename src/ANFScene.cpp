@@ -406,7 +406,8 @@ void ANFScene::init() {
 			appe = appe->NextSiblingElement("appearance")) {
 		printf("reading an appearance\n");
 		string id = appe->Attribute("id");
-		string textureRef = appe->Attribute("textureref");
+		string textureRef ="";
+		textureRef= appe->Attribute("textureref");
 		printf("cenas\n");
 		float shininess;
 		appe->QueryFloatAttribute("shininess", &shininess);
@@ -449,14 +450,14 @@ void ANFScene::init() {
 	animationsV = new AnimationMp();
 	if (animations != NULL) {
 		for (TiXmlElement* anim = animations->FirstChildElement("animation");
-				anim != NULL; anim = anim->NextSiblingElement("anim")) {
+				anim != NULL; anim = anim->NextSiblingElement("animation")) {
 			string id = anim->Attribute("id");
 			float span;
 			anim->QueryFloatAttribute("span", &span);
 			string type = anim->Attribute("type");
 			if (type == "linear") {
 
-				vector< vector<float> > ControlPoints;
+				vector<vector<float> > ControlPoints;
 				for (TiXmlElement* ctrl = anim->FirstChildElement(
 						"controlpoint"); ctrl != NULL;
 						ctrl = ctrl->NextSiblingElement("controlpoint")) {
@@ -474,18 +475,21 @@ void ANFScene::init() {
 
 				}
 
-				animationsV->addAnimation(id,new LinearAnimation(id,span,ControlPoints));
+				animationsV->addAnimation(id,
+						new LinearAnimation(id, span, ControlPoints));
 			} else {
 				float radius, startang, rotang;
-				vector<float> center;
+				float center[3];
+				vector<float> center2;
 				anim->QueryFloatAttribute("radius", &radius);
 				anim->QueryFloatAttribute("startang", &startang);
 				anim->QueryFloatAttribute("rotang", &rotang);
 
 				sscanf((char*) anim->Attribute("center"), "%f %f %f",
 						&center[0], &center[1], &center[2]);
-
-				Animation * temp = new CircularAnimation(id, span, center,
+				for (int i = 0; i < 3; i++)
+					center2.push_back(center[i]);
+				Animation * temp = new CircularAnimation(id, span, center2,
 						radius, startang, rotang);
 				animationsV->addAnimation(id, temp);
 
@@ -639,6 +643,15 @@ void ANFScene::init() {
 				shaders.push_back(tp->shader);
 
 			}
+			for (TiXmlElement* vehicle = primitiveElements->FirstChildElement(
+					"vehicle"); vehicle != NULL;
+					vehicle = vehicle->NextSiblingElement("vehicle")) {
+
+
+				primitives.push_back(new Vehicle());
+
+
+			}
 
 			for (TiXmlElement* torus = primitiveElements->FirstChildElement(
 					"torus"); torus != NULL;
@@ -697,6 +710,8 @@ void ANFScene::init() {
 //displaylsits
 	setDisplayList(graph->rootId, appearances->appearances.end(), false);
 	setUpdatePeriod(60);
+
+
 }
 
 void ANFScene::display() {
@@ -743,13 +758,18 @@ void ANFScene::update(unsigned long t) {
 	for (int i = 0; i < shaders.size(); i++) {
 		shaders[i]->update(t, wind);
 	}
-	map<string,Animation*>::iterator it = animationsV->animations.begin();
-	for(it;it!=animationsV->animations.end();it++){
+	map<string, Animation*>::iterator it = animationsV->animations.begin();
+	for (it; it != animationsV->animations.end(); it++) {
 		it->second->update(t);
 	}
 
 }
-
+void ANFScene::reset(){
+	map<string, Animation*>::iterator it = animationsV->animations.begin();
+		for (it; it != animationsV->animations.end(); it++) {
+			it->second->reset();
+		}
+}
 ANFScene::~ANFScene() {
 }
 

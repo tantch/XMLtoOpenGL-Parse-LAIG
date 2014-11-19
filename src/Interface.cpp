@@ -80,12 +80,18 @@ void Interface::initGUI() {
 	GLUI_Spinner *wind = addSpinnerToPanel(windPanel, "Wind", 2, &scene->wind,
 			11);
 
+	GLUI_Panel *animationPanel = addPanelToPanel(general, "Animation", 1);
+	GLUI_Button *reset = addButtonToPanel(animationPanel, "Reset", 12);
+
 }
 
 void Interface::processGUI(GLUI_Control *ctrl) {
 
 	if (ctrl->user_id >= 0)
-		if (ctrl->user_id != 11) {
+		if (ctrl->user_id ==12) {
+			scene->reset();
+
+		} else if (ctrl->user_id != 11) {
 			if (ctrl->get_int_val() == 1) {
 				scene->activateLight(ctrl->user_id, true);
 			} else {

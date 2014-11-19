@@ -56,9 +56,8 @@ void LinearAnimation::update(unsigned long t) {
 			startTime = t;
 
 		} else {
-			float interval = (t - lastTime)/1000.0;
+			float interval = (t - lastTime) / 1000.0;
 			float currentSpan = (float) (t - startTime) / 1000.0;
-			printf("currentSpan : %f\n span : %f \n",currentSpan,span);
 			if (span < currentSpan)
 				isFinished = true;
 			x += dx * speed * interval;
@@ -128,9 +127,19 @@ void LinearAnimation::move() {
 	glTranslated(x, y, z);
 }
 void LinearAnimation::reset() {
+	dx = 0;
+	dy = 0;
+	dz = 0;
+	pointIt = -1;
+	x = ControlPoints[0][0];
+	y = ControlPoints[0][1];
+	z = ControlPoints[0][2];
+
+	isFinished=false;
+	firstTime=true;
+	nextPoint();
 
 }
-
 
 void LinearAnimation::calculateSpeed() {
 	distance = 0.0;

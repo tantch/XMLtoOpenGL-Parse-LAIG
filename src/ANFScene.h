@@ -7,6 +7,7 @@
 #include "Flag.h"
 #include "Plane.h"
 #include "Patch.h"
+#include "Vehicle.h"
 #include "Animation.h"
 #include "LinearAnimation.h"
 #include "CircularAnimation.h"
@@ -20,6 +21,7 @@ public:
 	void setDisplayList(map<string, NodeSt>::iterator node,
 			map<string, appearanceSt*>::iterator appearanceId, bool force);
 	void activateLight(int id, bool enable);
+	void reset();
 
 	TiXmlElement* anfElement;
 	TiXmlElement* globalElements;
@@ -45,7 +47,6 @@ public:
 	vector<string> luzesId;
 	vector<string> camerasId;
 	AnimationMp* animationsV;
-
 
 };
 

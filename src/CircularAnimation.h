@@ -13,7 +13,7 @@ class CircularAnimation : public Animation {
 
 private:
 	vector<float> center;
-	float radius,initAngle,rotAngle,Angle,x,y,z,lastAngle,speed,distance, angularSpeed;
+	float radius,initAngle,rotAngle,Angle,x,y,z,lastAngle, angularSpeed;
 	bool isFinished, firstTime;
 	unsigned long startTime, lastTime;
 public:
