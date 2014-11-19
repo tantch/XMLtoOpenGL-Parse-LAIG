@@ -13,7 +13,7 @@
 class ShaderFlag:public CGFshader {
 public:
 
-	ShaderFlag();
+	ShaderFlag(string texture);
 	~ShaderFlag();
 	virtual void bind();
 	virtual void unbind();

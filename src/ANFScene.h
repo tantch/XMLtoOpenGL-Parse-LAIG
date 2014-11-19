@@ -7,6 +7,9 @@
 #include "Flag.h"
 #include "Plane.h"
 #include "Patch.h"
+#include "Animation.h"
+#include "LinearAnimation.h"
+#include "CircularAnimation.h"
 class ANFScene: public CGFscene {
 public:
 	void init();
@@ -18,7 +21,6 @@ public:
 			map<string, appearanceSt*>::iterator appearanceId, bool force);
 	void activateLight(int id, bool enable);
 
-	TiXmlDocument* doc;
 	TiXmlElement* anfElement;
 	TiXmlElement* globalElements;
 	TiXmlElement* cameraElements;
@@ -27,6 +29,7 @@ public:
 	TiXmlElement* appearanceElements;
 	TiXmlElement* graphElements;
 	//globals
+	vector<ShaderFlag*> shaders;
 	unsigned int dlcount=1;
 	int activeCam=0;
 	int drawMode=0;
@@ -41,7 +44,7 @@ public:
 	GraphMp* graph;
 	vector<string> luzesId;
 	vector<string> camerasId;
-	Flag* flagtest;
+	AnimationMp* animationsV;
 
 
 };

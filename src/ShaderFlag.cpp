@@ -4,8 +4,8 @@
 #include <GL/glut.h>
 #include "ShaderFlag.h"
 
-ShaderFlag::ShaderFlag() {
-	baseTexture = new CGFtexture("tex/flag.jpg");
+ShaderFlag::ShaderFlag(string texture) {
+	baseTexture = new CGFtexture(texture);
 	init("flag.vert", "flag.frag");
 	CGFshader::bind();
 

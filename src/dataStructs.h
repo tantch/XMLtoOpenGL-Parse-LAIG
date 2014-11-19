@@ -1,6 +1,6 @@
 #ifndef DATAS.H
 #define DATAS.H
-
+#include "Animation.h"
 #include <string>
 #include <map>
 #include <vector>
@@ -89,7 +89,7 @@ public:
 
 	}
 	void print() {
-		printf(" id%s near = %f \n far: %f\n",id.c_str(), near, far);
+		printf(" id%s near = %f \n far: %f\n", id.c_str(), near, far);
 	}
 	void apply() {
 		float ratio = ((float) CGFapplication::width)
@@ -494,16 +494,32 @@ public:
 
 	}
 };
+class AnimationMp {
+public:
+	map<string, Animation*> animations;
+	map<string, Animation*>::iterator getAnimation(string id) {
+		map<string, Animation*>::iterator ret;
 
+		ret = animations.find(id);
+		return ret;
+	}
+	void addAnimation(string id, Animation* anim) {
+		animations.insert(pair<string, Animation*>(id, anim));
+
+	}
+
+};
 class NodeSt {
 public:
 	string id;
 	bool usingDL;
 	unsigned int dl;
 	float matrix[16];
+	vector<map<string, Animation*>::iterator> animationsIds;
 	map<string, appearanceSt*>::iterator appearanceId;
 	vector<map<string, NodeSt>::iterator> descendents;
 	vector<PrimSt*> primitives;
+
 	NodeSt(string id, map<string, appearanceSt*>::iterator appearanceId,
 			vector<map<string, NodeSt>::iterator> descendents,
 			vector<PrimSt*> primitives, bool usingDL) {
@@ -563,6 +579,9 @@ public:
 		} else {
 			glPushMatrix();
 			glMultMatrixf(nod.matrix);
+			for(int i=0;i<nod.animationsIds.size();i++){
+				nod.animationsIds[i]->second->move();
+			}
 			if (nod.appearanceId->second->id != "inherit") {
 
 				nod.appearanceId->second->appe->apply();
@@ -582,18 +601,17 @@ public:
 					useText = false;
 				}
 			}
-				for (int i = 0; i < nod.primitives.size(); i++) {
-					if (useText) {
+			for (int i = 0; i < nod.primitives.size(); i++) {
+				if (useText) {
 
-						nod.primitives[i]->draw(
-								next->second->textureref->second);
-					} else
-						nod.primitives[i]->draw();
-				}
-				for (int i = 0; i < nod.descendents.size(); i++) {
-					draw(nod.descendents[i], next);
-				}
-				glPopMatrix();
+					nod.primitives[i]->draw(next->second->textureref->second);
+				} else
+					nod.primitives[i]->draw();
+			}
+			for (int i = 0; i < nod.descendents.size(); i++) {
+				draw(nod.descendents[i], next);
+			}
+			glPopMatrix();
 		}
 	}
 

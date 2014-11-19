@@ -60,12 +60,7 @@ void Patch::draw() {
 	else
 		glEvalMesh2(GL_POINT, 0, partsU, 0, partsV);
 
-	for (int i = 0; i < (order + 1) * (order + 1); i++) {
-		glRasterPos3f(cntrlPoints[3*i+0], cntrlPoints[3*i+1] + 0.5,
-				cntrlPoints[3*i+2]);
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, '0' + i / 10);
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, '0' + i % 10);
-	}
+
 	glFrontFace(GL_CCW);
 
 }

@@ -7,10 +7,10 @@
 
 #include "Flag.h"
 
-Flag::Flag() {
+Flag::Flag(string texture) {
 	// TODO Auto-generated constructor stub
 	plane= new Plane(100);
-	shader= new ShaderFlag();
+	shader= new ShaderFlag(texture);
 }
 
 Flag::~Flag() {

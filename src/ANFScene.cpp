@@ -95,7 +95,7 @@ void ANFScene::setDisplayList(map<string, NodeSt>::iterator node,
 ANFScene::ANFScene(char *filename) {
 // Read XML from file
 
-	doc = new TiXmlDocument(filename);
+	TiXmlDocument* doc = new TiXmlDocument(filename);
 	bool loadOkay = doc->LoadFile();
 	if (!loadOkay) {
 		printf("Could not load file '%s'. Error='%s'. Exiting.\n", filename,
@@ -138,7 +138,6 @@ ANFScene::ANFScene(char *filename) {
 		exit(1);
 	}
 
-	flagtest= new Flag();
 }
 
 void ANFScene::init() {
@@ -446,9 +445,57 @@ void ANFScene::init() {
 	graph = new GraphMp();
 	string rootId = graphElements->Attribute("rootid");
 	graph->rootId = graph->getNode(rootId);
+	TiXmlElement* animations = graphElements->FirstChildElement("animations");
+	animationsV = new AnimationMp();
+	if (animations != NULL) {
+		for (TiXmlElement* anim = animations->FirstChildElement("animation");
+				anim != NULL; anim = anim->NextSiblingElement("anim")) {
+			string id = anim->Attribute("id");
+			float span;
+			anim->QueryFloatAttribute("span", &span);
+			string type = anim->Attribute("type");
+			if (type == "linear") {
+
+				vector< vector<float> > ControlPoints;
+				for (TiXmlElement* ctrl = anim->FirstChildElement(
+						"controlpoint"); ctrl != NULL;
+						ctrl = ctrl->NextSiblingElement("controlpoint")) {
+					float x, y, z;
+
+					ctrl->QueryFloatAttribute("xx", &x);
+					ctrl->QueryFloatAttribute("yy", &y);
+					ctrl->QueryFloatAttribute("zz", &z);
+
+					vector<float> pos;
+					pos.push_back(x);
+					pos.push_back(y);
+					pos.push_back(z);
+					ControlPoints.push_back(pos);
+
+				}
+
+				animationsV->addAnimation(id,new LinearAnimation(id,span,ControlPoints));
+			} else {
+				float radius, startang, rotang;
+				vector<float> center;
+				anim->QueryFloatAttribute("radius", &radius);
+				anim->QueryFloatAttribute("startang", &startang);
+				anim->QueryFloatAttribute("rotang", &rotang);
+
+				sscanf((char*) anim->Attribute("center"), "%f %f %f",
+						&center[0], &center[1], &center[2]);
+
+				Animation * temp = new CircularAnimation(id, span, center,
+						radius, startang, rotang);
+				animationsV->addAnimation(id, temp);
+
+			}
+		}
+	}
 
 	for (TiXmlElement* node = graphElements->FirstChildElement("node");
 			node != NULL; node = node->NextSiblingElement("node")) {
+
 		printf("start reading a node\n");
 		string id = node->Attribute("id");
 		bool useDL = false;
@@ -559,7 +606,7 @@ void ANFScene::init() {
 			for (TiXmlElement* patch = primitiveElements->FirstChildElement(
 					"patch"); patch != NULL;
 					patch = patch->NextSiblingElement("patch")) {
-				int ord=0, pU=0, pV=0;
+				int ord = 0, pU = 0, pV = 0;
 				patch->QueryIntAttribute("order", &ord);
 				patch->QueryIntAttribute("partsU", &pU);
 				patch->QueryIntAttribute("partsV", &pV);
@@ -568,10 +615,10 @@ void ANFScene::init() {
 				for (TiXmlElement* ctrl = patch->FirstChildElement(
 						"controlpoint"); ctrl != NULL;
 						ctrl = ctrl->NextSiblingElement("controlpoint")) {
-					float x,y,z;
-					ctrl->QueryFloatAttribute("x",&x);
-					ctrl->QueryFloatAttribute("y",&y);
-					ctrl->QueryFloatAttribute("z",&z);
+					float x, y, z;
+					ctrl->QueryFloatAttribute("x", &x);
+					ctrl->QueryFloatAttribute("y", &y);
+					ctrl->QueryFloatAttribute("z", &z);
 
 					vector<float> temp;
 					temp.push_back(x);
@@ -581,8 +628,18 @@ void ANFScene::init() {
 					cntrlp.push_back(temp);
 				}
 
-				primitives.push_back(new Patch(ord,pU,pV,compute,cntrlp));
+				primitives.push_back(new Patch(ord, pU, pV, compute, cntrlp));
 			}
+			for (TiXmlElement* flag = primitiveElements->FirstChildElement(
+					"flag"); flag != NULL;
+					flag = flag->NextSiblingElement("flag")) {
+				string texture = flag->Attribute("texture");
+				Flag* tp = new Flag(texture);
+				primitives.push_back(tp);
+				shaders.push_back(tp->shader);
+
+			}
+
 			for (TiXmlElement* torus = primitiveElements->FirstChildElement(
 					"torus"); torus != NULL;
 					torus = torus->NextSiblingElement("torus")) {
@@ -619,6 +676,16 @@ void ANFScene::init() {
 			for (int i = 0; i < 16; i++)
 				graph->nodes[id].matrix[i] = matrix[i];
 			printf("finished reading node\n");
+			//
+
+		}
+		for (TiXmlElement* anims = node->FirstChildElement("animationref");
+				anims != NULL;
+				anims = anims->FirstChildElement("animationref")) {
+			string id3 = anims->Attribute("id");
+			graph->nodes[id].animationsIds.push_back(
+					animationsV->getAnimation(id3));
+
 		}
 	}
 	printf("finished reading graph\n");
@@ -659,10 +726,6 @@ void ANFScene::display() {
 	}
 	axis.draw();
 
-	glPushMatrix();
-	glTranslatef(20,15,20);
-	flagtest->draw();
-	glPopMatrix();
 	graph->draw(appearances->appearances.end());
 
 	glutSwapBuffers();
@@ -675,9 +738,15 @@ void ANFScene::activateLight(int id, bool enable) {
 		lights->getLight(luzesId[id])->light->disable();
 
 }
-void ANFScene::update(unsigned long t){
-	flagtest->shader->update(t,wind);
+void ANFScene::update(unsigned long t) {
 
+	for (int i = 0; i < shaders.size(); i++) {
+		shaders[i]->update(t, wind);
+	}
+	map<string,Animation*>::iterator it = animationsV->animations.begin();
+	for(it;it!=animationsV->animations.end();it++){
+		it->second->update(t);
+	}
 
 }
 

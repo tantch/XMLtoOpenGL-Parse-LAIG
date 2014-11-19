@@ -121,6 +121,7 @@
 				<noderef id="arvore9" />
 				<noderef id="teste1" />
 				<noderef id="teste2" />
+				<noderef id="teste3" />
 
 			</descendants>
 		</node>
@@ -138,6 +139,19 @@
 			</descendants>
 			<primitives>
 				<plane parts="10" />
+			</primitives>
+		</node>
+		<node id="teste3">
+			<transforms>
+				<transform type="translate" to="20 15 20" />
+			</transforms>
+
+			<appearanceref id="general" />
+
+			<descendants>
+			</descendants>
+			<primitives>
+				<flag texture="tex/flag.jpg" />
 			</primitives>
 		</node>
 		<node id="teste2">

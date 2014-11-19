@@ -25,8 +25,8 @@ void Plane::draw() {
 	{ 0, 1, 0 }, { 0, 1, 0 }
 	};
 	float controlPointsText[4][2] =
-	{ { 1, 0 }, { 0, 0 },
-	{ 1, 1 }, { 0, 1 }
+	{ { 0, 0 }, { 1, 0 },
+	{ 0, 1 }, { 1, 1 }
 	};
 	glMap2f(GL_MAP2_VERTEX_3, 0, 1, 6, 2, 0, 1, 3, 2, &controlPoints[0][0]);
 	glMap2f(GL_MAP2_NORMAL, 0, 1, 6, 2, 0, 1, 3, 2, &controlPointsNorm[0][0]);

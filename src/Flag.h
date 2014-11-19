@@ -6,7 +6,7 @@
 #include "ShaderFlag.h"
 class Flag:public PrimSt {
 public:
-	Flag();
+	Flag(string texture);
 	virtual ~Flag();
 	Plane* plane;
 	void draw();

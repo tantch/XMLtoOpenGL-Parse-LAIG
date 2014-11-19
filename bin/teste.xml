@@ -1,0 +1,150 @@
+<anf>
+
+	<globals>
+
+		<drawing mode="fill" shading="gouraud" background="0 0 0.1 1" />
+
+
+		<culling face="back" order="ccw" />
+
+
+		<lighting doublesided="true" local="true" enabled="true"
+			ambient="0 0 0 1" />
+
+	</globals>
+
+
+	<cameras initial="cam1">
+
+
+		<perspective id="cam1" near="0.1" far="100.0" angle="45.0"
+			pos="50 10 50" target="0 0 0" />
+		<ortho id="cam2" direction="z" near="-40" far="40" left="50"
+			right="-10" top="50" bottom="-10" />
+		<ortho id="right" direction="x" near="-20.0" far="20.0" left="-5.0"
+			right="5.0" top="7.5" bottom="-2.5" />
+
+	</cameras>
+
+
+
+	<lights>
+
+		<light id="luz4" type="omni" enabled="false" marker="true" pos="-3 30 -3">
+			<component type="ambient" value="0.1 0.1 0.1 1" />
+			<component type="diffuse" value="1 1 1 1" />
+			<component type="specular" value="1 1 1 1" />
+
+		</light>
+		<light id="lamp2" type="spot" enabled="false" marker="true" pos="37 1.5 34"
+			target="38 1.5 34" angle="45" exponent="10">
+			<component type="ambient" value="0.1 0.1 0.1 1" />
+			<component type="diffuse" value="0.9 0.5 0.1 1" />
+			<component type="specular" value="0.9 0.5 0.1 1" />
+
+		</light>
+		<light id="lamp1" type="spot" enabled="false" marker="true" pos="23 5 15"
+			target="10 5 15" angle="45" exponent="10">
+			<component type="ambient" value="0.1 0.1 0.1 1" />
+			<component type="diffuse" value="0.9 0.1 0.1 1" />
+			<component type="specular" value="0.9 0.1 0.1 1" />
+
+		</light>
+
+	</lights>
+
+
+	<textures>
+		<texture id="leaf" file="tex/leaf.jpg" texlength_s="1"
+			texlength_t="1" />
+	</textures>
+
+
+	<appearances>
+
+		<appearance id="general" shininess="0.5" textureref="">
+			<component type="ambient" value="0.4 0.4 0.4 1" />
+			<component type="diffuse" value="0.6 0.6 0.6 1" />
+			<component type="specular" value="0.6 0.6 0.6 1" />
+		</appearance>
+	</appearances>
+
+
+
+	<graph rootid="cena">
+		<animations>
+			<animation id="trans" span="10" type="linear">
+				<controlpoint xx="0" yy="0" zz="0" />
+				<controlpoint xx="10" yy="0" zz="0" />
+				<controlpoint xx="10" yy="0" zz="10" />
+				<controlpoint xx="0" yy="50" zz="10" />
+				<controlpoint xx="0" yy="10" zz="0" />
+				<controlpoint xx="15" yy="40" zz="5" />
+			</animation>
+
+			<animation id="rot" span="3" type="circular" center="-5 10 0"
+				radius="5" startang="0" rotang="70" />
+		</animations>
+
+
+		<node id="cena">
+
+			<transforms>
+
+			</transforms>
+
+
+
+			<appearanceref id="general" />
+			<primitives>
+
+			</primitives>
+
+
+			<descendants>
+
+
+				<noderef id="ocean1" />
+				<noderef id="ocean2" />
+
+			</descendants>
+		</node>
+		<node id="ocean1">
+			<animationref id="trans" />
+			<transforms>
+				<transform type="scale" factor="100 1 100" />
+			</transforms>
+
+
+
+			<appearanceref id="general" />
+			<primitives>
+				<flag texture="tex/ocean.jpeg" />
+			</primitives>
+
+
+			<descendants>
+			</descendants>
+		</node>
+		<node id="ocean2">
+
+			<transforms>
+				<transform type="translate" to="0 20 0" />
+				<transform type="scale" factor="10 1 10" />
+			</transforms>
+
+
+
+			<appearanceref id="general" />
+			<primitives>
+				<flag texture="tex/ocean.jpeg" />
+			</primitives>
+
+
+			<descendants>
+			</descendants>
+		</node>
+
+
+	</graph>
+</anf>
