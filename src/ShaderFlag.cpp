@@ -5,14 +5,16 @@
 #include "ShaderFlag.h"
 
 ShaderFlag::ShaderFlag() {
-	baseTexture = new CGFtexture("tex/leaf.jpg");
+	baseTexture = new CGFtexture("tex/flag.jpg");
 	init("flag.vert", "flag.frag");
 	CGFshader::bind();
 
 	startTime=0.0;
 	time=0.0;
-	timeLoc = glGetUniformLocation(id(), "time");
+	wind=2.0;
 	angle = 0.0;
+	windLoc = glGetUniformLocation(id(), "wind");
+	timeLoc = glGetUniformLocation(id(), "time");
 
 	angleLoc = glGetUniformLocation(id(), "angle");
 
@@ -33,6 +35,7 @@ void ShaderFlag::bind() {
 	// update uniforms
 	glUniform1f(angleLoc, angle);
 	glUniform1f(timeLoc, time);
+	glUniform1f(windLoc, wind);
 	// make sure the correct texture unit is active
 	glActiveTexture(GL_TEXTURE0);
 
@@ -43,11 +46,12 @@ void ShaderFlag::bind() {
 void ShaderFlag::unbind() {
 	CGFshader::unbind();
 }
-void ShaderFlag::update(unsigned long t) {
+void ShaderFlag::update(unsigned long t,int wind) {
 	if (startTime = 0) {
 		startTime = t;
 	} else {
 		time = t - startTime;
 	}
+	this->wind=(float)wind;
 
 }

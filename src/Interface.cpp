@@ -12,7 +12,6 @@ using namespace std;
 Interface::Interface(ANFScene* scene) {
 	this->scene = scene;
 
-
 }
 
 void Interface::initGUI() {
@@ -47,7 +46,7 @@ void Interface::initGUI() {
 
 	std::map<std::string, cameraSt*>::iterator itc =
 			scene->cameras->cameras.begin();
-	i=0;
+	i = 0;
 	for (itc = scene->cameras->cameras.begin();
 			itc != scene->cameras->cameras.end(); itc++) {
 
@@ -75,15 +74,23 @@ void Interface::initGUI() {
 	addRadioButtonToGroup(drawList, "Fill");
 	addRadioButtonToGroup(drawList, "Line");
 	addRadioButtonToGroup(drawList, "Point");
+
+	addColumnToPanel(general);
+	GLUI_Panel *windPanel = addPanelToPanel(general, "Wind", 3);
+	GLUI_Spinner *wind = addSpinnerToPanel(windPanel, "Wind", 2, &scene->wind,
+			11);
+
 }
 
 void Interface::processGUI(GLUI_Control *ctrl) {
 
 	if (ctrl->user_id >= 0)
-		if (ctrl->get_int_val() == 1) {
-			scene->activateLight(ctrl->user_id, true);
-		} else {
-			scene->activateLight(ctrl->user_id, false);
+		if (ctrl->user_id != 11) {
+			if (ctrl->get_int_val() == 1) {
+				scene->activateLight(ctrl->user_id, true);
+			} else {
+				scene->activateLight(ctrl->user_id, false);
+			}
 		}
 
 }

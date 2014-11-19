@@ -20,10 +20,12 @@ public:
 	float angle;
 	unsigned long startTime;
 	float time;
+	float wind;
+	int windLoc;
 	int angleLoc;
 	int timeLoc;
 	int baseTextLoc;
-	void update(unsigned long t);
+	void update(unsigned long t,int wind);
 	CGFtexture * baseTexture;
 
 };

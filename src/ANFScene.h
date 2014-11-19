@@ -30,6 +30,7 @@ public:
 	unsigned int dlcount=1;
 	int activeCam=0;
 	int drawMode=0;
+	int wind=1;
 	drawingSt* draw;
 	cullingSt* culling;
 	lightingSt* lighting;
@@ -41,6 +42,7 @@ public:
 	vector<string> luzesId;
 	vector<string> camerasId;
 	Flag* flagtest;
+
 
 };
 

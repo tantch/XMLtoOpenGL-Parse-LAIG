@@ -676,7 +676,7 @@ void ANFScene::activateLight(int id, bool enable) {
 
 }
 void ANFScene::update(unsigned long t){
-	flagtest->shader->update(t);
+	flagtest->shader->update(t,wind);
 
 
 }
